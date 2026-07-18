@@ -1,6 +1,6 @@
-# Lucid
+# BesideYou
 
-A calm, in-the-moment companion for family caregivers of people with dementia.
+A companion for family caregivers of people with dementia. Because caring for someone should never be done alone. Built for OpenAI Build Week 2026.
 
 ## Tech stack
 

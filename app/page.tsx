@@ -7,9 +7,9 @@ export default function Home() {
         <p className="mb-5 text-sm font-medium tracking-[0.2em] text-amber-800/70 uppercase">
           Here with you
         </p>
-        <h1 className="font-serif text-6xl tracking-tight text-stone-800">Lucid</h1>
+        <h1 className="font-serif text-6xl tracking-tight text-stone-800">BesideYou</h1>
         <p className="mt-7 text-xl leading-8 text-stone-600">
-          A companion for the family caring for someone with dementia.
+          Because caring for someone with dementia should never be done alone.
         </p>
         <Link
           href="/guide"

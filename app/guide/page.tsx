@@ -48,7 +48,7 @@ export default function GuidePage() {
   return (
     <main className="min-h-screen bg-stone-50 px-6 py-12 text-stone-800 sm:py-20">
       <section className="mx-auto max-w-2xl">
-        <p className="text-sm font-medium tracking-[0.2em] text-amber-800/70 uppercase">Lucid</p>
+        <p className="text-sm font-medium tracking-[0.2em] text-amber-800/70 uppercase">BesideYou</p>
         <h1 className="mt-4 font-serif text-4xl leading-tight sm:text-5xl">
           What&apos;s happening right now?
         </h1>
