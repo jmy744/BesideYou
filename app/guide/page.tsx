@@ -1,6 +1,7 @@
 "use client";
 
 import { FormEvent, useState } from "react";
+import ReactMarkdown from "react-markdown";
 
 export default function GuidePage() {
   const [situation, setSituation] = useState("");
@@ -82,12 +83,35 @@ export default function GuidePage() {
         )}
 
         {(guidance || isLoading) && (
-          <section aria-live="polite" className="mt-9 rounded-2xl border border-amber-900/10 bg-amber-50/50 p-6 shadow-sm">
-            <h2 className="font-serif text-2xl text-stone-800">Guidance for this moment</h2>
-            <div className="mt-4 whitespace-pre-wrap leading-7 text-stone-700">
-              {guidance || "Thinking through this with you…"}
-            </div>
-          </section>
+          <>
+            <section aria-live="polite" className="mt-9 rounded-2xl border border-amber-900/10 bg-amber-50/50 p-6 shadow-sm sm:p-8">
+              <h2 className="font-serif text-2xl text-stone-800">Guidance for this moment</h2>
+              <div className="mt-5 text-[1.05rem] leading-8 text-stone-700">
+                {guidance ? (
+                  <ReactMarkdown
+                    components={{
+                      h3: ({ children }) => (
+                        <h3 className="mt-7 mb-3 font-serif text-sm font-semibold tracking-[0.16em] text-amber-900/70 uppercase first:mt-0">
+                          {children}
+                        </h3>
+                      ),
+                      p: ({ children }) => <p className="mt-4 first:mt-0">{children}</p>,
+                      ul: ({ children }) => <ul className="mt-4 space-y-3 pl-6 marker:text-amber-800">{children}</ul>,
+                      li: ({ children }) => <li className="pl-1 leading-8">{children}</li>,
+                      strong: ({ children }) => <strong className="font-semibold text-amber-950">{children}</strong>,
+                    }}
+                  >
+                    {guidance}
+                  </ReactMarkdown>
+                ) : (
+                  "Thinking through this with you…"
+                )}
+              </div>
+            </section>
+            <p className="mt-4 text-center text-xs leading-5 text-stone-500">
+              Powered by GPT-5.6 Sol&nbsp;&nbsp; Grounded in evidence-based dementia care principles
+            </p>
+          </>
         )}
       </section>
     </main>
