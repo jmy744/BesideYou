@@ -22,15 +22,27 @@ export async function POST(request: Request) {
       return Response.json({ error: "A situation is required." }, { status: 400 });
     }
 
-    const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
-    const stream = await openai.responses.create({
-      model: "gpt-5.6-sol",
-      input: [
-        { role: "system", content: systemPrompt },
-        { role: "user", content: situation.trim() },
-      ],
-      stream: true,
-    });
+    const model = "gpt-5.6-sol";
+    let stream;
+
+    try {
+      console.info("OPENAI MODEL ATTEMPT:", model);
+      const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+      stream = await openai.responses.create({
+        model,
+        input: [
+          { role: "system", content: systemPrompt },
+          { role: "user", content: situation.trim() },
+        ],
+        stream: true,
+      });
+    } catch (err) {
+      const message = err instanceof Error ? err.message : String(err);
+      console.error("OPENAI ERROR:", message);
+      console.error(err);
+      return Response.json({ error: message }, { status: 500 });
+    }
+
     const encoder = new TextEncoder();
 
     const body = new ReadableStream({
