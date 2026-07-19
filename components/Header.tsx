@@ -14,7 +14,7 @@ export default function Header() {
   const pathname = usePathname();
   return (
     <header className="sticky top-0 z-20 border-b border-stone-200 bg-stone-50/95 backdrop-blur">
-      <div className="mx-auto flex max-w-3xl items-center justify-between px-6 py-4">
+      <div className="mx-auto flex max-w-3xl items-center justify-between px-4 py-4 sm:px-6">
         <Link href="/" className="font-serif text-xl text-amber-900 transition-colors hover:text-amber-950">BesideYou</Link>
         <nav className="hidden items-center gap-4 text-sm sm:flex" aria-label="Main navigation">
           {links.map(({ href, label }) => {
