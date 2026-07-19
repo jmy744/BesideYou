@@ -52,6 +52,10 @@ export default function Home() {
           <span className="font-serif text-2xl">Understand a doctor&apos;s note</span>
           <span className="mt-2 block text-stone-600">Upload a photo of a medical document</span>
         </Link>
+        <Link href="/handover" className="mt-4 block cursor-pointer rounded-2xl border border-stone-200 bg-amber-50 p-6 transition-all hover:bg-amber-100 hover:shadow-md">
+          <span className="font-serif text-2xl">For the next person</span>
+          <span className="mt-2 block text-stone-600">Generate a handover brief for a family member taking over</span>
+        </Link>
 
         <section className="mt-10">
           <h2 className="font-serif text-2xl">Recent moments</h2>

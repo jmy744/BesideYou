@@ -68,6 +68,14 @@ export function getMomentById(id: string): Moment | null {
   return getMoments().find((moment) => moment.id === id) ?? null;
 }
 
+function isWithinLastNDays(timestamp: string, days: number): boolean {
+  return new Date(timestamp).getTime() >= Date.now() - days * 24 * 60 * 60 * 1000;
+}
+
+export function getMomentsInLastNDays(days: number): Moment[] {
+  return getMoments().filter(({ timestamp }) => isWithinLastNDays(timestamp, days));
+}
+
 export function saveCheckin(checkin: NewCheckin): Checkin {
   writeStoredArray(CHECKINS_KEY, [checkin, ...getCheckins()]);
   return checkin;
@@ -77,6 +85,10 @@ export function getCheckins(): Checkin[] {
   return readStoredArray<Checkin>(CHECKINS_KEY).sort(
     (a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime(),
   );
+}
+
+export function getCheckinsInLastNDays(days: number): Checkin[] {
+  return getCheckins().filter(({ timestamp }) => isWithinLastNDays(timestamp, days));
 }
 
 export type MoodPattern = {
