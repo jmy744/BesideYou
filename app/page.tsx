@@ -36,8 +36,8 @@ export default function Home() {
   }
 
   return (
-    <main className="bg-stone-50 px-6 py-12 text-stone-800 sm:py-16">
-      <section className="mx-auto max-w-2xl">
+    <main className="mx-auto w-full max-w-3xl bg-stone-50 px-6 py-12 text-stone-800 sm:py-16">
+      <section className="mx-auto w-full max-w-3xl">
         <div className="flex items-start justify-end gap-4">
           {hasCheckins && <Link href="/wellbeing" className="text-sm text-stone-500 transition-colors hover:text-amber-900">View your wellbeing →</Link>}
         </div>
