@@ -79,11 +79,29 @@ export function getCheckins(): Checkin[] {
   );
 }
 
-export function getRecentMoodPattern(): "struggling" | "stable" {
-  const recent = getCheckins().slice(0, 3);
-  return recent.length === 3 && recent.every(({ mood }) => mood === "struggling" || mood === "tired")
-    ? "struggling"
-    : "stable";
+export type MoodPattern = {
+  pattern: "flourishing" | "steady" | "carrying" | "struggling";
+  recentCheckins: number;
+  lastCheckinAt: number | null;
+};
+
+export function getRecentMoodPattern(): MoodPattern {
+  const checkins = getCheckins();
+  const now = Date.now();
+  const sevenDaysAgo = now - 7 * 24 * 60 * 60 * 1000;
+  const recentCheckins = checkins.filter(({ timestamp }) => new Date(timestamp).getTime() >= sevenDaysAgo).length;
+  const lastCheckinAt = checkins[0] ? new Date(checkins[0].timestamp).getTime() : null;
+
+  if (checkins.length < 3) return { pattern: "steady", recentCheckins, lastCheckinAt };
+
+  const lastThree = checkins.slice(0, 3);
+  if (lastThree.every(({ mood }) => mood === "okay" || mood === "alright")) {
+    return { pattern: "flourishing", recentCheckins, lastCheckinAt };
+  }
+
+  const harderCheckins = checkins.slice(0, 5).filter(({ mood }) => mood === "struggling" || mood === "tired").length;
+  const pattern = harderCheckins >= 3 ? "struggling" : harderCheckins === 2 ? "carrying" : "steady";
+  return { pattern, recentCheckins, lastCheckinAt };
 }
 
 export function saveNote({ imageDataUrl, explanation, timestamp }: NewNote): Note {

@@ -2,16 +2,18 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { getMoments, getRecentMoodPattern, type Moment } from "@/lib/storage";
+import { getCheckins, getMoments, getRecentMoodPattern, type MoodPattern, type Moment } from "@/lib/storage";
 import { relativeTime } from "@/lib/time";
 
 export default function Home() {
   const [moments, setMoments] = useState<Moment[] | null>(null);
-  const [moodPattern, setMoodPattern] = useState<"struggling" | "stable">("stable");
+  const [moodPattern, setMoodPattern] = useState<MoodPattern | null>(null);
+  const [hasCheckins, setHasCheckins] = useState(false);
 
   useEffect(() => {
     setMoments(getMoments());
     setMoodPattern(getRecentMoodPattern());
+    setHasCheckins(getCheckins().length > 0);
   }, []);
 
   if (moments === null) {
@@ -37,7 +39,10 @@ export default function Home() {
   return (
     <main className="min-h-screen bg-stone-50 px-6 py-8 text-stone-800 sm:py-12">
       <section className="mx-auto max-w-2xl">
-        <p className="font-serif text-xl text-amber-900">BesideYou</p>
+        <div className="flex items-start justify-between gap-4">
+          <p className="font-serif text-xl text-amber-900">BesideYou</p>
+          {hasCheckins && <Link href="/wellbeing" className="text-sm text-stone-500 transition-colors hover:text-amber-900">View your wellbeing →</Link>}
+        </div>
         <h1 className="mt-10 font-serif text-5xl tracking-tight sm:text-6xl">Welcome back.</h1>
         <Link href="/guide" className="mt-8 block cursor-pointer rounded-2xl border border-stone-200 bg-amber-50 p-6 shadow-sm transition-all hover:bg-amber-100 hover:shadow-md sm:p-8">
           <span className="font-serif text-2xl sm:text-3xl">In the moment</span>
@@ -60,10 +65,29 @@ export default function Home() {
           </div>
         </section>
 
-        {moodPattern === "struggling" && (
-          <section className="mt-8 rounded-2xl border border-stone-200 bg-amber-50 p-6">
-            <p className="leading-7 text-stone-700">You&apos;ve been carrying a lot lately. When you have a moment, here are ways to find respite care and support.</p>
-            <button type="button" className="mt-5 rounded-full bg-amber-800 px-5 py-3 font-semibold text-stone-50 transition-colors hover:bg-amber-900">Find local support</button>
+        {(moodPattern?.pattern === "struggling" || moodPattern?.pattern === "carrying") && (
+          <section className="mt-10 rounded-3xl border border-rose-200 bg-rose-50 p-7 sm:p-9">
+            <h2 className="font-serif text-3xl">How are you?</h2>
+            <p className="mt-4 max-w-xl leading-7 text-stone-700">
+              {moodPattern.pattern === "struggling"
+                ? "You've been carrying a lot lately. That takes a real toll. When you have a moment, here are some things that might help."
+                : "The last few days have been heavy. You are doing important work, and you deserve care too."}
+            </p>
+            <div className="mt-7 grid gap-3">
+              <a href="https://www.alz.org/help-support/resources/helpline" target="_blank" rel="noreferrer" className="rounded-2xl border border-rose-200 bg-stone-50 p-5 transition-colors hover:bg-rose-100">
+                <span className="font-serif text-lg">Talk to someone right now</span>
+                <span className="mt-1 block text-sm text-stone-600">Alzheimer&apos;s Association 24/7 Helpline</span>
+              </a>
+              <a href="https://eldercare.acl.gov/Public/Index.aspx" target="_blank" rel="noreferrer" className="rounded-2xl border border-rose-200 bg-stone-50 p-5 transition-colors hover:bg-rose-100">
+                <span className="font-serif text-lg">Find respite care near you</span>
+                <span className="mt-1 block text-sm text-stone-600">Eldercare Locator</span>
+              </a>
+              <a href="https://www.alz.org/help-support/caregiving" target="_blank" rel="noreferrer" className="rounded-2xl border border-rose-200 bg-stone-50 p-5 transition-colors hover:bg-rose-100">
+                <span className="font-serif text-lg">Read: You are not alone</span>
+                <span className="mt-1 block text-sm text-stone-600">Caregiver support from the Alzheimer&apos;s Association</span>
+              </a>
+            </div>
+            <p className="mt-7 text-xs leading-5 text-stone-500">This nudge appears when your recent check-ins suggest you may need extra support.</p>
           </section>
         )}
       </section>
