@@ -138,7 +138,7 @@ export default function GuidePage() {
                 {checkinMood ? (
                   <p className="mt-4 leading-7 text-stone-700">
                     {checkinMood === "struggling" || checkinMood === "tired"
-                      ? "Thank you for telling me. I&apos;m keeping this in mind."
+                      ? "Thank you for telling me. I'm keeping this in mind."
                       : "Glad to hear it."}
                   </p>
                 ) : (

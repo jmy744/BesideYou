@@ -17,8 +17,18 @@ export type Checkin = {
 
 export type NewCheckin = Checkin;
 
+export type Note = {
+  id: string;
+  imageDataUrl: string;
+  explanation: string;
+  timestamp: string;
+};
+
+export type NewNote = Omit<Note, "id">;
+
 const MOMENTS_KEY = "besideyou_moments";
 const CHECKINS_KEY = "besideyou_checkins";
+const NOTES_KEY = "besideyou_notes";
 
 function readStoredArray<T>(key: string): T[] {
   if (typeof window === "undefined") return [];
@@ -74,4 +84,16 @@ export function getRecentMoodPattern(): "struggling" | "stable" {
   return recent.length === 3 && recent.every(({ mood }) => mood === "struggling" || mood === "tired")
     ? "struggling"
     : "stable";
+}
+
+export function saveNote({ imageDataUrl, explanation, timestamp }: NewNote): Note {
+  const note: Note = { id: crypto.randomUUID(), imageDataUrl, explanation, timestamp };
+  writeStoredArray(NOTES_KEY, [note, ...getNotes()]);
+  return note;
+}
+
+export function getNotes(): Note[] {
+  return readStoredArray<Note>(NOTES_KEY).sort(
+    (a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime(),
+  );
 }

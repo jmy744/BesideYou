@@ -39,9 +39,13 @@ export default function Home() {
       <section className="mx-auto max-w-2xl">
         <p className="font-serif text-xl text-amber-900">BesideYou</p>
         <h1 className="mt-10 font-serif text-5xl tracking-tight sm:text-6xl">Welcome back.</h1>
-        <Link href="/guide" className="mt-8 block rounded-2xl border border-stone-200 bg-amber-50 p-6 shadow-sm transition-colors hover:bg-amber-100 sm:p-8">
+        <Link href="/guide" className="mt-8 block cursor-pointer rounded-2xl border border-stone-200 bg-amber-50 p-6 shadow-sm transition-all hover:bg-amber-100 hover:shadow-md sm:p-8">
           <span className="font-serif text-2xl sm:text-3xl">In the moment</span>
           <span className="mt-2 block text-lg text-stone-600">— I need help now</span>
+        </Link>
+        <Link href="/notes" className="mt-4 block cursor-pointer rounded-2xl border border-stone-200 bg-amber-50 p-6 transition-all hover:bg-amber-100 hover:shadow-md">
+          <span className="font-serif text-2xl">Understand a doctor&apos;s note</span>
+          <span className="mt-2 block text-stone-600">Upload a photo of a medical document</span>
         </Link>
 
         <section className="mt-10">
