@@ -2,12 +2,15 @@
 
 import { FormEvent, useState } from "react";
 import ReactMarkdown from "react-markdown";
+import { saveCheckin, saveMoment, type Mood } from "@/lib/storage";
 
 export default function GuidePage() {
   const [situation, setSituation] = useState("");
   const [guidance, setGuidance] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
+  const [momentId, setMomentId] = useState<string | null>(null);
+  const [checkinMood, setCheckinMood] = useState<Mood | null>(null);
 
   async function getGuidance(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -16,6 +19,8 @@ export default function GuidePage() {
     setGuidance("");
     setError("");
     setIsLoading(true);
+    setMomentId(null);
+    setCheckinMood(null);
 
     try {
       const response = await fetch("/api/guide", {
@@ -30,19 +35,35 @@ export default function GuidePage() {
 
       const reader = response.body.getReader();
       const decoder = new TextDecoder();
+      let completedGuidance = "";
 
       while (true) {
         const { done, value } = await reader.read();
         if (done) break;
-        setGuidance((current) => current + decoder.decode(value, { stream: true }));
+        const chunk = decoder.decode(value, { stream: true });
+        completedGuidance += chunk;
+        setGuidance((current) => current + chunk);
       }
 
-      setGuidance((current) => current + decoder.decode());
+      completedGuidance += decoder.decode();
+      setGuidance(completedGuidance);
+      const moment = saveMoment({
+        situation: situation.trim(),
+        response: completedGuidance,
+        timestamp: new Date().toISOString(),
+      });
+      setMomentId(moment.id);
     } catch {
       setError("We could not get guidance right now. Please try again in a moment.");
     } finally {
       setIsLoading(false);
     }
+  }
+
+  function handleCheckin(mood: Mood) {
+    if (!momentId) return;
+    saveCheckin({ mood, momentId, timestamp: new Date().toISOString() });
+    setCheckinMood(mood);
   }
 
   return (
@@ -111,6 +132,37 @@ export default function GuidePage() {
             <p className="mt-4 text-center text-xs leading-5 text-stone-500">
               Powered by GPT-5.6 Sol&nbsp;&nbsp; Grounded in evidence-based dementia care principles
             </p>
+            {momentId && (
+              <section className="mt-8 rounded-2xl border border-stone-200 bg-amber-50 p-6 text-center">
+                <h2 className="font-serif text-2xl">How are you doing right now?</h2>
+                {checkinMood ? (
+                  <p className="mt-4 leading-7 text-stone-700">
+                    {checkinMood === "struggling" || checkinMood === "tired"
+                      ? "Thank you for telling me. I&apos;m keeping this in mind."
+                      : "Glad to hear it."}
+                  </p>
+                ) : (
+                  <div className="mt-5 grid grid-cols-4 gap-2 sm:gap-3">
+                    {[
+                      ["struggling", "😔", "Struggling"],
+                      ["tired", "😮‍💨", "Tired"],
+                      ["okay", "🙂", "Okay"],
+                      ["alright", "😊", "Alright"],
+                    ].map(([value, emoji, label]) => (
+                      <button
+                        key={value}
+                        type="button"
+                        onClick={() => handleCheckin(value as Mood)}
+                        className="rounded-xl border border-stone-200 bg-stone-50 px-2 py-3 text-sm font-medium text-stone-700 transition-colors hover:border-amber-800 hover:bg-amber-100"
+                      >
+                        <span className="block text-xl" aria-hidden="true">{emoji}</span>
+                        <span className="mt-1 block">{label}</span>
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </section>
+            )}
           </>
         )}
       </section>
