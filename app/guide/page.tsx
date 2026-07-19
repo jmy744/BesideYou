@@ -67,10 +67,9 @@ export default function GuidePage() {
   }
 
   return (
-    <main className="min-h-screen bg-stone-50 px-6 py-12 text-stone-800 sm:py-20">
+    <main className="bg-stone-50 px-6 py-12 text-stone-800 sm:py-16">
       <section className="mx-auto max-w-2xl">
-        <p className="text-sm font-medium tracking-[0.2em] text-amber-800/70 uppercase">BesideYou</p>
-        <h1 className="mt-4 font-serif text-4xl leading-tight sm:text-5xl">
+        <h1 className="font-serif text-4xl leading-tight sm:text-5xl">
           What&apos;s happening right now?
         </h1>
         <p className="mt-4 max-w-xl leading-7 text-stone-600">
@@ -105,7 +104,7 @@ export default function GuidePage() {
 
         {(guidance || isLoading) && (
           <>
-            <section aria-live="polite" className="mt-9 rounded-2xl border border-amber-900/10 bg-amber-50/50 p-6 shadow-sm sm:p-8">
+            <section aria-live="polite" className="mt-9 rounded-2xl border border-stone-200 bg-amber-50 p-6 shadow-sm sm:p-8">
               <h2 className="font-serif text-2xl text-stone-800">Guidance for this moment</h2>
               <div className="mt-5 text-[1.05rem] leading-8 text-stone-700">
                 {guidance ? (
@@ -133,7 +132,7 @@ export default function GuidePage() {
               Powered by GPT-5.6 Sol&nbsp;&nbsp; Grounded in evidence-based dementia care principles
             </p>
             {momentId && (
-              <section className="mt-8 rounded-2xl border border-stone-200 bg-amber-50 p-6 text-center">
+              <section className="mt-8 rounded-2xl border border-stone-200 bg-amber-50 p-6 text-center shadow-sm">
                 <h2 className="font-serif text-2xl">How are you doing right now?</h2>
                 {checkinMood ? (
                   <p className="mt-4 leading-7 text-stone-700">

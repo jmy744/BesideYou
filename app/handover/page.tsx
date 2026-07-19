@@ -73,16 +73,15 @@ export default function HandoverPage() {
   }
 
   return (
-    <main className="min-h-screen bg-stone-50 px-6 py-12 text-stone-800 sm:py-20">
+    <main className="bg-stone-50 px-6 py-12 text-stone-800 sm:py-16">
       <section className="mx-auto max-w-3xl">
-        <p className="text-sm font-medium uppercase tracking-[0.2em] text-amber-800/70">BesideYou</p>
-        <h1 className="mt-4 font-serif text-4xl leading-tight sm:text-5xl">For the next person</h1>
+        <h1 className="font-serif text-4xl leading-tight sm:text-5xl">For the next person</h1>
         <p className="mt-4 max-w-2xl leading-7 text-stone-600">A quiet handover for whoever takes over care next. Send this to your sister, brother, spouse, or whoever is stepping in.</p>
         <button type="button" onClick={generateBrief} disabled={isLoading} className="mt-8 rounded-full bg-amber-800 px-6 py-3 font-semibold text-stone-50 transition-colors hover:bg-amber-900 disabled:cursor-not-allowed disabled:bg-stone-400">
           {isLoading ? "Writing the brief…" : "Generate handover brief"}
         </button>
 
-        {empty && <p className="mt-8 rounded-2xl border border-stone-200 bg-amber-50 p-6 leading-7 text-stone-700">No recent moments to summarize yet. Come back after you&apos;ve used BesideYou for a few days.</p>}
+        {empty && <p className="mt-8 rounded-2xl border border-stone-200 bg-amber-50 p-6 leading-7 text-stone-700 shadow-sm">No recent moments to summarize yet. Come back after a few days of using BesideYou.</p>}
         {error && <p role="alert" className="mt-8 rounded-xl bg-red-50 px-5 py-4 text-red-800">{error}</p>}
 
         {(brief || isLoading) && (

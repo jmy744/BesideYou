@@ -26,7 +26,7 @@ export default function WellbeingPage() {
 
   useEffect(() => setCheckins(getCheckins()), []);
 
-  if (checkins === null) return <main className="min-h-screen bg-stone-50" aria-busy="true" />;
+  if (checkins === null) return <main className="bg-stone-50" aria-busy="true" />;
 
   const today = new Date();
   const byDay = new Map<number, Checkin>();
@@ -46,13 +46,12 @@ export default function WellbeingPage() {
     : null;
 
   return (
-    <main className="min-h-screen bg-stone-50 px-6 py-12 text-stone-800 sm:py-20">
+    <main className="bg-stone-50 px-6 py-12 text-stone-800 sm:py-16">
       <section className="mx-auto max-w-2xl">
-        <p className="font-serif text-xl text-amber-900">BesideYou</p>
-        <h1 className="mt-8 font-serif text-4xl sm:text-5xl">How you&apos;ve been</h1>
+        <h1 className="font-serif text-4xl sm:text-5xl">How you've been</h1>
         <p className="mt-4 max-w-xl leading-7 text-stone-600">A quiet record of the care you&apos;ve been giving yourself, too.</p>
 
-        <section className="mt-10 rounded-3xl border border-stone-200 bg-amber-50 p-6 sm:p-8">
+        <section className="mt-10 rounded-3xl border border-stone-200 bg-amber-50 p-6 shadow-sm sm:p-8">
           <h2 className="font-serif text-2xl">The last 14 days</h2>
           <div className="mt-7 flex justify-between gap-1 sm:gap-3" aria-label="Check-ins over the last 14 days">
             {days.map(({ date, checkin }) => (
@@ -73,10 +72,10 @@ export default function WellbeingPage() {
         <p className="mt-8 leading-7 text-stone-700">
           {checkins.length
             ? `In the last 14 days, you've checked in ${checkins.filter(({ timestamp }) => new Date(timestamp).getTime() >= Date.now() - 14 * 24 * 60 * 60 * 1000).length} times. Your most common feeling has been ${commonMood}.`
-            : "You haven't checked in yet. Whenever you're ready, BesideYou is here to listen."}
+            : "No check-ins yet. After you use BesideYou for a few moments, this page will show how you've been feeling."}
         </p>
 
-        <section className="mt-10 rounded-3xl border border-rose-200 bg-rose-50 p-7 sm:p-9">
+        <section className="mt-10 rounded-3xl border border-rose-200 bg-rose-50 p-7 shadow-sm sm:p-9">
           <h2 className="font-serif text-3xl">A little support for you</h2>
           <div className="mt-6 grid gap-3">
             <a href="https://www.alz.org/help-support/resources/helpline" target="_blank" rel="noreferrer" className="rounded-2xl border border-rose-200 bg-stone-50 p-5 hover:bg-rose-100"><span className="font-serif text-lg">Talk to someone right now</span><span className="mt-1 block text-sm text-stone-600">Alzheimer&apos;s Association 24/7 Helpline</span></a>

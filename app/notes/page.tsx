@@ -59,15 +59,14 @@ export default function NotesPage() {
   }
 
   return (
-    <main className="min-h-screen bg-stone-50 px-6 py-12 text-stone-800 sm:py-20">
+    <main className="bg-stone-50 px-6 py-12 text-stone-800 sm:py-16">
       <section className="mx-auto max-w-2xl">
-        <p className="text-sm font-medium uppercase tracking-[0.2em] text-amber-800/70">BesideYou</p>
-        <h1 className="mt-4 font-serif text-4xl leading-tight sm:text-5xl">Understand a doctor&apos;s note</h1>
+        <h1 className="font-serif text-4xl leading-tight sm:text-5xl">Understand a doctor's note</h1>
         <p className="mt-4 max-w-xl leading-7 text-stone-600">Take a photo of your loved one&apos;s discharge papers, prescription, or clinic note. I&apos;ll explain it in plain language.</p>
 
-        <div className="mt-9 rounded-2xl border border-stone-200 bg-amber-50 p-6 sm:p-8">
+        <div className="mt-9 rounded-2xl border border-stone-200 bg-amber-50 p-6 shadow-sm sm:p-8">
           <label htmlFor="medical-note" className="block font-semibold text-stone-700">Choose a photo</label>
-          <input id="medical-note" type="file" accept="image/*" onChange={handleImageChange} disabled={isLoading} className="mt-3 block w-full text-sm text-stone-600 file:mr-4 file:rounded-full file:border-0 file:bg-amber-800 file:px-4 file:py-2 file:font-semibold file:text-stone-50 hover:file:bg-amber-900" />
+          <input id="medical-note" type="file" accept="image/*" onChange={handleImageChange} disabled={isLoading} className="mt-3 block w-full rounded-lg text-sm text-stone-600 outline-none focus-visible:ring-3 focus-visible:ring-amber-800/20 file:mr-4 file:rounded-full file:border-0 file:bg-amber-800 file:px-4 file:py-2 file:font-semibold file:text-stone-50 hover:file:bg-amber-900" />
           {imageDataUrl && <img src={imageDataUrl} alt="Preview of the selected medical document" className="mt-6 max-h-96 w-full rounded-xl border border-stone-200 object-contain bg-stone-50" />}
           <button type="button" onClick={explainNote} disabled={!imageFile || !imageDataUrl || isLoading} className="mt-6 rounded-full bg-amber-800 px-6 py-3 font-semibold text-stone-50 transition-colors hover:bg-amber-900 disabled:cursor-not-allowed disabled:bg-stone-400">
             {isLoading ? "Explaining…" : "Explain this"}
@@ -78,7 +77,7 @@ export default function NotesPage() {
 
         {(explanation || isLoading) && (
           <>
-            <section aria-live="polite" className="mt-8 rounded-2xl border border-stone-200 bg-amber-50 p-6 sm:p-8">
+            <section aria-live="polite" className="mt-8 rounded-2xl border border-stone-200 bg-amber-50 p-6 shadow-sm sm:p-8">
               <h2 className="font-serif text-2xl">In plain language</h2>
               <div className="mt-5 leading-8 text-stone-700">
                 {explanation ? <ReactMarkdown components={{ h3: ({ children }) => <h3 className="mt-7 mb-3 font-serif text-xl first:mt-0">{children}</h3>, p: ({ children }) => <p className="mt-4 first:mt-0">{children}</p>, ul: ({ children }) => <ul className="mt-4 space-y-3 pl-6 marker:text-amber-800">{children}</ul>, li: ({ children }) => <li className="pl-1">{children}</li> }}>{explanation}</ReactMarkdown> : "Reading this with you…"}
